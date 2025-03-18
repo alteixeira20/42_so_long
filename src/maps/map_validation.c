@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:59:13 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/18 18:11:20 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:45:43 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ static int	check_components(char **map)
 
 int	is_map_valid(char **map)
 {
-	if (is_rectangular(map) && check_components(map) && are_walls_valid(map))
+	if (is_rectangular(map) && check_components(map)
+		&& are_walls_valid(map) && is_map_solvable(map))
 		return (1);
 	return (0);
 }
