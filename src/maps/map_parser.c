@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:24:23 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/18 17:17:03 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:45:21 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ static char	**allocate_map_mem(int height)
 	return (map);
 }
 
-void	free_map(char **map, int height)
+void	free_map(char **map)
 {
 	int	i;
 
+	if (!map)
+		return ;
 	i = 0;
-	while (i < height)
+	while (map[i])
 	{
 		free(map[i]);
 		i++;
@@ -75,7 +77,7 @@ static char	**prepare_map(int fd, int height)
 	}
 	if (!line && i < height)
 	{
-		free_map(map, i);
+		free_map(map);
 		return (NULL);
 	}
 	map[i] = NULL;

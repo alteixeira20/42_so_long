@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:59:13 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/18 18:45:43 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/19 20:48:08 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ static int	are_walls_valid(char **map)
 
 	i = 0;
 	last_row = get_last_row(map);
-	while (map[0][i] && map[last_row][i])
+	len = ft_strlen(map[0]) - 2;
+	while (i <= len)
 	{
 		if (map[0][i] != '1' || map[last_row][i] != '1')
 			return (0);
 		i++;
 	}
-	len = i;
 	i = 1;
 	while (i < last_row)
 	{
@@ -91,8 +91,22 @@ static int	check_components(char **map)
 
 int	is_map_valid(char **map)
 {
-	if (is_rectangular(map) && check_components(map)
-		&& are_walls_valid(map) && is_map_solvable(map))
-		return (1);
-	return (0);
+	if (!is_rectangular(map))
+	{
+		ft_printf("Error\n	Map is not retangular.\n");
+		return (0);
+	}
+	if (!are_walls_valid(map))
+	{
+		ft_printf("Error\n	Map has invalid wall configuration.\n");
+		return (0);
+	}
+	if (!check_components(map))
+		return (0);
+	if (!is_map_solvable(map))
+	{
+		ft_printf("Error\n	Map is not solvable.\n");
+		return (0);
+	}
+	return (1);
 }
