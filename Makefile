@@ -6,7 +6,7 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 15:53:16 by paalexan          #+#    #+#              #
-#    Updated: 2025/03/19 21:38:58 by paalexan         ###   ########.fr        #
+#    Updated: 2025/03/19 22:13:08 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,26 +64,35 @@ $(GAME): $(OBJ)
 
 start:
 	@bash -c ' \
+		OLD_MAPS=$$(ls | grep ".ber" || echo ""); \
+		if [ ! -z "$$OLD_MAPS" ]; then \
+			read -p "Maps found, do you want to delete previous used maps? (y/n): " DELETE_OLD; \
+			if [ "$$DELETE_OLD" = "y" ]; then \
+				rm -f *.ber; \
+				echo "Old maps deleted."; \
+			fi; \
+		fi; \
 		MAPS=($$(ls maps/ | grep ".ber")); \
 		TOTAL_MAPS=$${#MAPS[@]}; \
 		PAGE_SIZE=5; \
 		CURRENT_PAGE=0; \
 		while true; do \
 			clear; \
-			echo "Available Maps (Page $$((CURRENT_PAGE+1))):"; \
+			echo "$(ORANGE)Available Maps $(RESET)(Page $$((CURRENT_PAGE+1))):"; \
 			START=$$((CURRENT_PAGE * PAGE_SIZE)); \
 			END=$$((START + PAGE_SIZE)); \
 			INDEX=0; \
 			for MAP in $${MAPS[@]:$$START:$$PAGE_SIZE}; do \
-				echo "$$((START+INDEX+1))) $$MAP"; \
+				echo " $$((START+INDEX+1))) $$MAP"; \
 				INDEX=$$((INDEX+1)); \
 			done; \
 			echo ""; \
 			if [ "$$TOTAL_MAPS" -gt "$$PAGE_SIZE" ]; then \
-				[ "$$END" -lt "$$TOTAL_MAPS" ] && echo "n) Next Page"; \
-				[ "$$CURRENT_PAGE" -gt 0 ] && echo "p) Previous Page"; \
+				[ "$$END" -lt "$$TOTAL_MAPS" ] && echo "$(GREY)$(BOLD)n) Next Page$(RESET)"; \
+				[ "$$CURRENT_PAGE" -gt 0 ] && echo "$(GREY)$(BOLD)p) Previous Page$(RESET)"; \
 			fi; \
-			echo "q) Quit"; \
+			echo "$(GREY)$(BOLD)q) Quit$(RESET)"; \
+			echo ""; \
 			read -p "Choose a map (number) or navigate (n/p/q): " CHOICE; \
 			if [ "$$CHOICE" = "n" ] && [ $$END -lt $$TOTAL_MAPS ]; then \
 				CURRENT_PAGE=$$((CURRENT_PAGE + 1)); \
