@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:44:41 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/19 21:06:31 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:16:01 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,32 @@ static int	is_ready(char **map)
 	return (1);
 }
 
+static void	set_start_pos(t_game *game)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (game->map[y][x] == 'P')
+			{
+				game->player_x = x;
+				game->player_y = y;
+				return ;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
+	t_game	game;
 	char	**map;
 
 	if (argc != 2)
@@ -45,8 +69,13 @@ int	main(int argc, char **argv)
 	map = read_map(argv[1]);
 	if (!is_ready(map))
 		return (1);
-	ft_printf("Map was validated successfully.\n");
-	//start_game(map);
-	free_map(map);
+	game.map = map;
+	set_start_pos(&game);
+	game.width = ft_strlen(map[0]) - 1;
+	game.height = get_last_row(map) + 1;
+	game.moves = 0;
+	game.collectibles = count_collectibles(map);
+	game.player_dir = 1;
+	start_game(&game);
 	return (0);
 }

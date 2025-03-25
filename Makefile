@@ -6,7 +6,7 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 15:53:16 by paalexan          #+#    #+#              #
-#    Updated: 2025/03/19 22:13:08 by paalexan         ###   ########.fr        #
+#    Updated: 2025/03/24 19:59:12 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,17 @@
 CC			:= cc
 CFLAGS		:= -Wall -Werror -Wextra -g
 VFLAGS		:= --leak-check=full --show-leak-kinds=all --track-origins=yes
-MLX_FLAGS	:= -Lmlx -lmlx -lXext -lX11
+MLX_FLAGS	:= -Lmlx -lXext -lX11
 
 # Source Directories
 SRC_MAIN	:= src
-SRC_MAPS	:= src/maps
+SRC_MAPS	:= src/map
+SRC_GAME	:= src/game
 OBJ_DIR		:= obj
+
+# Minilibx-linux
+MLX_DIR		:= minilibx-linux
+MLX			:= $(MLX_DIR)/libmlx.a
 
 # Libft
 LIBFT_REPO	:= https://github.com/alteixeira20/42_libft.git
@@ -30,8 +35,9 @@ LIBFT		:= $(LIBFT_DIR)/libft.a
 SRC			:= $(SRC_MAIN)/so_long.c \
 			   $(SRC_MAPS)/map_parser.c \
 			   $(SRC_MAPS)/map_validation.c $(SRC_MAPS)/map_validation_utils.c \
-			   $(SRC_MAPS)/map_pathfinding.c $(SRC_MAPS)/map_pathfinding_utils.c
-
+			   $(SRC_MAPS)/map_pathfinding.c $(SRC_MAPS)/map_pathfinding_utils.c \
+			   $(SRC_GAME)/game_init.c $(SRC_GAME)/game_input.c \
+			   $(SRC_GAME)/game_assets.c $(SRC_GAME)/game_render.c
 
 OBJ			:= $(patsubst $(SRC_MAIN)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
@@ -47,8 +53,11 @@ $(OBJ_DIR)/%.o: $(SRC_MAPS)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJ_DIR)/%.o: $(SRC_GAME)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 # Rules
-all: $(LIBFT) $(GAME)
+all: $(LIBFT) $(MLX) $(GAME)
 
 $(LIBFT):
 	@if [ ! -d "$(LIBFT_DIR)" ]; then \
@@ -58,8 +67,11 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) --silent > /dev/null 2>&1
 	@echo "$(ORANGE)$(PREFIX)$(RESET) $(BOLD)Libft$(RESET) compiled $(GREEN)successfully$(RESET)."
 
+$(MLX):
+	@$(MAKE) -C $(MLX_DIR) > /dev/null 2>&1
+
 $(GAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(GAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(GAME)
 	@echo "$(ORANGE)$(PREFIX)$(RESET) $(BOLD)Game$(RESET) compiled $(GREEN)successfully$(RESET)."
 
 start:
