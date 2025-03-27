@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:00:30 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/24 22:00:50 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:37:56 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_player
 // Game Window
 # define MAX_WINDOW_WIDTH	1280
 # define MAX_WINDOW_HEIGHT	720
+# define TILE_SIZE			32
 
 // Game Functions
 void	render_map(t_game *game, t_graphics *gfx);

@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:18:41 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/24 23:59:44 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:40:39 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	start_game(t_game *game)
 		ft_printf("Error\n	MLX failed to initialize.\n");
 		close_game(game, &game->gfx);
 	}
-	game->gfx.tile_size = 128;
+	game->gfx.tile_size = TILE_SIZE;
 	ft_bzero(&game->gfx.tx, sizeof(t_textures));
 	if (!load_textures(&game->gfx))
 		close_game(game, &game->gfx);
