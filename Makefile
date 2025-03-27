@@ -6,7 +6,7 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 15:53:16 by paalexan          #+#    #+#              #
-#    Updated: 2025/03/24 19:59:12 by paalexan         ###   ########.fr        #
+#    Updated: 2025/03/27 15:55:32 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,7 +140,7 @@ fclean: clean
 	@rm -rf $(LIBFT_DIR)
 	@echo "$(ORANGE)$(PREFIX)$(RESET) Libft was cleaned $(GREEN)successfully$(RESET)."
 
-re: all clean fclean
+re: fclean all
 
 # Colors
 PREFIX	:= $(shell tput bold)[So_Long]

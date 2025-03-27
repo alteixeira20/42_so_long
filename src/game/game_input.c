@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:06:44 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/25 00:00:06 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:46:47 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static void	update_player_pos(t_game *game, t_player *pos)
 	if (tile == 'E')
 	{
 		if (game->collectibles == 0)
+		{
+			set_player_pos(game, pos->x, pos->y);
 			close_game(game, &game->gfx);
+		}
 		else
 			return ;
 	}
