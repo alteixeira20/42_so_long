@@ -6,7 +6,7 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 15:53:16 by paalexan          #+#    #+#              #
-#    Updated: 2025/03/27 15:55:32 by paalexan         ###   ########.fr        #
+#    Updated: 2025/03/28 16:34:25 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,12 @@ SRC_MAIN	:= src
 SRC_MAPS	:= src/map
 SRC_GAME	:= src/game
 OBJ_DIR		:= obj
+
+# Source Bonus Directories
+SRCB_MAIN	:= srcb
+SRCB_MAPS	:= srcb/map
+SRCB_GAME	:= srcb/game
+OBJB_DIR		:= objb
 
 # Minilibx-linux
 MLX_DIR		:= minilibx-linux
@@ -41,10 +47,22 @@ SRC			:= $(SRC_MAIN)/so_long.c \
 
 OBJ			:= $(patsubst $(SRC_MAIN)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-# Executable
-GAME		:= so_long
+# Source Bonus Files
+SRCB			:= $(SRCB_MAIN)/so_long_bonus.c \
+				$(SRCB_MAPS)/map_parser_bonus.c \
+				$(SRCB_MAPS)/map_validation_bonus.c $(SRCB_MAPS)/map_validation_utils_bonus.c \
+				$(SRCB_MAPS)/map_pathfinding_bonus.c $(SRCB_MAPS)/map_pathfinding_utils_bonus.c \
+				$(SRCB_GAME)/game_init_bonus.c $(SRCB_GAME)/game_render_bonus.c \
+				$(SRCB_GAME)/game_assets_bonus.c $(SRCB_GAME)/game_animations_bonus.c \
+				$(SRCB_GAME)/game_input_bonus.c $(SRCB_GAME)/game_input_utils_bonus.c
 
-# Targets
+OBJB			:= $(patsubst $(SRCB_MAIN)/%.c, $(OBJB_DIR)/%.o, $(SRCB))
+
+# Executable
+GAME			:= so_long
+BONUS			:= so_long_bonus
+
+# Targets Mandatory
 $(OBJ_DIR)/%.o: $(SRC_MAIN)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -56,8 +74,23 @@ $(OBJ_DIR)/%.o: $(SRC_MAPS)/%.c
 $(OBJ_DIR)/%.o: $(SRC_GAME)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
+	
+# Targets Bonus
+$(OBJB_DIR)/%.o: $(SRCB_MAIN)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJB_DIR)/%.o: $(SRCB_MAPS)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJB_DIR)/%.o: $(SRCB_GAME)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 # Rules
 all: $(LIBFT) $(MLX) $(GAME)
+bonus: $(BONUS)
 
 $(LIBFT):
 	@if [ ! -d "$(LIBFT_DIR)" ]; then \
@@ -73,6 +106,11 @@ $(MLX):
 $(GAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(GAME)
 	@echo "$(ORANGE)$(PREFIX)$(RESET) $(BOLD)Game$(RESET) compiled $(GREEN)successfully$(RESET)."
+
+$(BONUS): $(LIBFT) $(MLX) $(OBJB)
+	@rm -f $(GAME)
+	@$(CC) $(CFLAGS) $(OBJB) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(GAME)
+	@echo "$(ORANGE)$(PREFIX)$(RESET) $(BOLD)Bonus Game$(RESET) compiled $(GREEN)successfully$(RESET)."
 
 start:
 	@bash -c ' \
@@ -133,6 +171,7 @@ start:
 
 clean:
 	@rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJB_DIR)
 	@rm -f $(GAME)
 	@echo "$(ORANGE)$(PREFIX)$(RESET) All executables and objects were cleaned $(GREEN)successfully$(RESET)."
 
@@ -152,4 +191,4 @@ RESET	:= $(shell tput sgr0)
 GREY	:= $(shell tput setaf 8)
 ORANGE	:= $(shell tput setaf 214)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus start
