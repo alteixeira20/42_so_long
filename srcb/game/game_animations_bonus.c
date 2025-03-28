@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:37 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 18:09:56 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:37:29 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,12 @@ void	play_move_anim(t_game *game, t_anim *anim, int dir)
 	while (i < anim->frame_count)
 	{
 		step = (game->gfx.tile_size * i) / anim->frame_count;
-		render_map(game, &game->gfx);
 		mlx_put_image_to_window(game->gfx.mlx, game->gfx.window,
 			anim->frames[i],
 			(game->player_x * game->gfx.tile_size) + (offset.x * step),
 			(game->player_y * game->gfx.tile_size) + (offset.y * step));
 		mlx_do_sync(game->gfx.mlx);
-		usleep(anim->delay * 200);
+		usleep(anim->delay * 242);
 		i++;
 	}
 }

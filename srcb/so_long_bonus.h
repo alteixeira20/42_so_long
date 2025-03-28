@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:00:30 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 17:37:27 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/28 19:02:48 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	move_player(t_game *game, t_graphics *gfx, t_player *pos);
 void	set_player_pos(t_game *game, int x, int y);
 int		handle_input(int key, t_game *game, t_graphics *gfx);
 void	handle_collectible(t_game *game, t_player *pos);
-int		handle_exit(t_game *game, t_player *pos);
+void	handle_exit(t_game *game);
 
 // Sprites Functions
 int		load_textures(t_graphics *gfx);
