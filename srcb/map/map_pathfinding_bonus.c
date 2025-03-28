@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_pathfinding.c                                  :+:      :+:    :+:   */
+/*   map_pathfinding_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:12:16 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/27 17:05:43 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:49:08 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	find_player(char **map, int *x, int *y)
 
 static void	flood_fill(char **map, int x, int y)
 {
-	if (map[y][x] == '1' || map[y][x] == 'F')
+	if (map[y][x] == '1' || map[y][x] == 'F' || map[y][x] == 'X')
 		return ;
 	map[y][x] = 'F';
 	flood_fill(map, x + 1, y);

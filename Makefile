@@ -6,7 +6,7 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 15:53:16 by paalexan          #+#    #+#              #
-#    Updated: 2025/03/28 16:34:25 by paalexan         ###   ########.fr        #
+#    Updated: 2025/03/28 17:17:52 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,59 +114,72 @@ $(BONUS): $(LIBFT) $(MLX) $(OBJB)
 
 start:
 	@bash -c ' \
-		OLD_MAPS=$$(ls | grep ".ber" || echo ""); \
-		if [ ! -z "$$OLD_MAPS" ]; then \
-			read -p "Maps found, do you want to delete previous used maps? (y/n): " DELETE_OLD; \
-			if [ "$$DELETE_OLD" = "y" ]; then \
-				rm -f *.ber; \
-				echo "Old maps deleted."; \
-			fi; \
-		fi; \
-		MAPS=($$(ls maps/ | grep ".ber")); \
-		TOTAL_MAPS=$${#MAPS[@]}; \
-		PAGE_SIZE=5; \
-		CURRENT_PAGE=0; \
 		while true; do \
 			clear; \
-			echo "$(ORANGE)Available Maps $(RESET)(Page $$((CURRENT_PAGE+1))):"; \
-			START=$$((CURRENT_PAGE * PAGE_SIZE)); \
-			END=$$((START + PAGE_SIZE)); \
-			INDEX=0; \
-			for MAP in $${MAPS[@]:$$START:$$PAGE_SIZE}; do \
-				echo " $$((START+INDEX+1))) $$MAP"; \
-				INDEX=$$((INDEX+1)); \
-			done; \
+			echo "$(ORANGE)Choose map type:$(RESET)"; \
+			echo " 1) Invalid"; \
+			echo " 2) Valid"; \
+			echo " q) $(GREY)Quit$(RESET)"; \
 			echo ""; \
-			if [ "$$TOTAL_MAPS" -gt "$$PAGE_SIZE" ]; then \
-				[ "$$END" -lt "$$TOTAL_MAPS" ] && echo "$(GREY)$(BOLD)n) Next Page$(RESET)"; \
-				[ "$$CURRENT_PAGE" -gt 0 ] && echo "$(GREY)$(BOLD)p) Previous Page$(RESET)"; \
-			fi; \
-			echo "$(GREY)$(BOLD)q) Quit$(RESET)"; \
-			echo ""; \
-			read -p "Choose a map (number) or navigate (n/p/q): " CHOICE; \
-			if [ "$$CHOICE" = "n" ] && [ $$END -lt $$TOTAL_MAPS ]; then \
-				CURRENT_PAGE=$$((CURRENT_PAGE + 1)); \
-			elif [ "$$CHOICE" = "p" ] && [ $$CURRENT_PAGE -gt 0 ]; then \
-				CURRENT_PAGE=$$((CURRENT_PAGE - 1)); \
-			elif [ "$$CHOICE" = "q" ]; then \
-				exit 0; \
-			elif [[ "$$CHOICE" =~ ^[0-9]+$$ ]] && [ "$$CHOICE" -ge 1 ] && [ "$$CHOICE" -le $$TOTAL_MAPS ]; then \
-				SELECTED_MAP=$${MAPS[$$((CHOICE-1))]}; \
-				cp "maps/$$SELECTED_MAP" "./$$SELECTED_MAP"; \
-				echo "Map $(ORANGE)$$SELECTED_MAP$(RESET) copied to working directory."; \
-				read -p "Do you want to $(GREEN)start$(RESET) the game? (y/n): " RUN_GAME; \
-				if [ "$$RUN_GAME" = "y" ]; then \
-					./so_long "$$SELECTED_MAP"; \
-					rm -f "./$$SELECTED_MAP"; \
-					echo "Map $(ORANGE)$$SELECTED_MAP$(RESET) removed from working directory."; \
-				else \
-					echo "You can now manually run: $(ORANGE)./so_long $$SELECTED_MAP$(RESET)"; \
-				fi; \
-				exit 0; \
+			read -p "Enter your choice: " TYPE_CHOICE; \
+			if [ "$$TYPE_CHOICE" = "q" ]; then exit 0; fi; \
+			if [ "$$TYPE_CHOICE" = "1" ]; then \
+				MAP_DIR="maps/invalid"; \
+			elif [ "$$TYPE_CHOICE" = "2" ]; then \
+				MAP_DIR="maps/valid"; \
 			else \
-				echo "Invalid choice! Please enter a valid number."; \
-				sleep 1; \
+				echo "Invalid choice. Please choose 1, 2, or q."; \
+				sleep 1; continue; \
 			fi; \
+			MAPS=($$(find $$MAP_DIR -name "*.ber" | sort)); \
+			TOTAL_MAPS=$${#MAPS[@]}; \
+			PAGE_SIZE=5; \
+			CURRENT_PAGE=0; \
+			while true; do \
+				clear; \
+				echo "$(ORANGE)Available Maps in $$MAP_DIR $(RESET)(Page $$((CURRENT_PAGE+1))):"; \
+				START=$$((CURRENT_PAGE * PAGE_SIZE)); \
+				END=$$((START + PAGE_SIZE)); \
+				INDEX=0; \
+				for MAP in $${MAPS[@]:$$START:$$PAGE_SIZE}; do \
+					echo " $$((START+INDEX+1))) $$(basename $$MAP)"; \
+					INDEX=$$((INDEX+1)); \
+				done; \
+				echo ""; \
+				if [ "$$TOTAL_MAPS" -gt "$$PAGE_SIZE" ]; then \
+					[ "$$END" -lt "$$TOTAL_MAPS" ] && echo "$(GREY)$(BOLD)n) Next Page$(RESET)"; \
+					[ "$$CURRENT_PAGE" -gt 0 ] && echo "$(GREY)$(BOLD)p) Previous Page$(RESET)"; \
+				fi; \
+				echo "$(GREY)$(BOLD)b) Back$(RESET)"; \
+				echo "$(GREY)$(BOLD)q) Quit$(RESET)"; \
+				echo ""; \
+				read -p "Choose a map (number) or navigate (n/p/b/q): " CHOICE; \
+				if [ "$$CHOICE" = "n" ] && [ $$END -lt $$TOTAL_MAPS ]; then \
+					CURRENT_PAGE=$$((CURRENT_PAGE + 1)); \
+				elif [ "$$CHOICE" = "p" ] && [ "$$CURRENT_PAGE" -gt 0 ]; then \
+					CURRENT_PAGE=$$((CURRENT_PAGE - 1)); \
+				elif [ "$$CHOICE" = "b" ]; then \
+					break; \
+				elif [ "$$CHOICE" = "q" ]; then \
+					exit 0; \
+				elif [[ "$$CHOICE" =~ ^[0-9]+$$ ]] && [ "$$CHOICE" -ge 1 ] && [ "$$CHOICE" -le $$TOTAL_MAPS ]; then \
+					SELECTED_MAP=$${MAPS[$$((CHOICE-1))]}; \
+					cp "$$SELECTED_MAP" "./$$(basename $$SELECTED_MAP)"; \
+					echo "Map $(ORANGE)$$(basename $$SELECTED_MAP)$(RESET) copied to working directory."; \
+					read -p "Do you want to $(GREEN)start$(RESET) the game? (y/n): " RUN_GAME; \
+					if [ "$$RUN_GAME" = "y" ]; then \
+						./so_long "$$(basename $$SELECTED_MAP)"; \
+						rm -f "$$(basename $$SELECTED_MAP)"; \
+						echo "Map $(ORANGE)$$(basename $$SELECTED_MAP)$(RESET) removed from working directory."; \
+					else \
+						echo "You can now manually run: ./so_long $$(basename $$SELECTED_MAP)"; \
+					fi; \
+					exit 0; \
+				else \
+					echo "Invalid choice! Please enter a valid number."; \
+					sleep 1; \
+				fi; \
+			done; \
 		done'
 
 clean:

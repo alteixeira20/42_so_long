@@ -6,13 +6,13 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:17:21 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 16:32:05 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:03:21 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long_bonus.h"
 
-static void	set_direction(int key, t_player *pos)
+void	set_direction(int key, t_player *pos)
 {
 	if (key == KEY_W)
 	{

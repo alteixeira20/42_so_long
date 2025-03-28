@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:35:38 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 16:07:41 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:11:17 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	load_textures(t_graphics *gfx)
 		|| !load_image(&gfx->tx.wall, gfx->mlx, WALL)
 		|| !load_image(&gfx->tx.collectible, gfx->mlx, COLLECT)
 		|| !load_image(&gfx->tx.exit, gfx->mlx, EXIT)
+		|| !load_image(&gfx->tx.enemy, gfx->mlx, ENEMY)
 		|| !load_anim(gfx, &gfx->tx.move_anim[0], MOVE_UP, MOVE_FRAMES)
 		|| !load_anim(gfx, &gfx->tx.move_anim[1], MOVE_DOWN, MOVE_FRAMES)
 		|| !load_anim(gfx, &gfx->tx.move_anim[2], MOVE_LEFT, MOVE_FRAMES)
@@ -102,4 +103,6 @@ void	free_static_textures(t_graphics *gfx)
 		mlx_destroy_image(gfx->mlx, gfx->tx.collectible);
 	if (gfx && gfx->mlx && gfx->tx.exit)
 		mlx_destroy_image(gfx->mlx, gfx->tx.exit);
+	if (gfx && gfx->mlx && gfx->tx.enemy)
+		mlx_destroy_image(gfx->mlx, gfx->tx.enemy);
 }

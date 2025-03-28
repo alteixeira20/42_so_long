@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:00:30 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 16:37:01 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:37:27 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_textures
 	void	*floor;
 	void	*exit;
 	void	*collectible;
+	void	*enemy;
 	t_anim	move_anim[4];
 	t_anim	mining_anim[4];
 }	t_textures;
@@ -75,19 +76,20 @@ typedef struct s_player
 # define KEY_D		100
 
 // Game Assets
-# define FLOOR			"assets/floor.xpm"
-# define WALL			"assets/wall.xpm"
-# define COLLECT		"assets/collectible.xpm"
-# define EXIT			"assets/exit.xpm"
-# define MOVE_UP "assets/player/player_up"
-# define MOVE_DOWN "assets/player/player_down"
-# define MOVE_LEFT "assets/player/player_left"
-# define MOVE_RIGHT "assets/player/player_right"
-# define MOVE_FRAMES 7
-# define MINE_UP "assets/mining/mining_up"
-# define MINE_DOWN "assets/mining/mining_down"
-# define MINE_LEFT "assets/mining/mining_left"
-# define MINE_RIGHT "assets/mining/mining_right"
+# define FLOOR			"assets/static/floor.xpm"
+# define WALL			"assets/static/wall.xpm"
+# define COLLECT		"assets/static/collectible.xpm"
+# define EXIT			"assets/static/exit.xpm"
+# define ENEMY			"assets/static/enemy.xpm"
+# define MOVE_UP		"assets/player/player_up"
+# define MOVE_DOWN		"assets/player/player_down"
+# define MOVE_LEFT		"assets/player/player_left"
+# define MOVE_RIGHT		"assets/player/player_right"
+# define MOVE_FRAMES	7
+# define MINE_UP		"assets/mining/mining_up"
+# define MINE_DOWN		"assets/mining/mining_down"
+# define MINE_LEFT		"assets/mining/mining_left"
+# define MINE_RIGHT		"assets/mining/mining_right"
 # define MINE_FRAMES	5
 
 // Game Window
