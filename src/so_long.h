@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:00:30 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/27 15:53:56 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/29 18:24:40 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ typedef struct s_player
 # define KEY_D		100
 
 // Game Assets
-# define FLOOR      "assets/floor.xpm"
-# define WALL       "assets/wall.xpm"
-# define COLLECT    "assets/collectible.xpm"
-# define EXIT       "assets/exit.xpm"
-# define P_UP       "assets/player_up.xpm"
-# define P_DOWN     "assets/player_down.xpm"
-# define P_LEFT     "assets/player_left.xpm"
-# define P_RIGHT    "assets/player_right.xpm"
+# define FLOOR      "assets/static/floor.xpm"
+# define WALL       "assets/static/wall.xpm"
+# define COLLECT    "assets/static/collectible.xpm"
+# define EXIT       "assets/static/exit.xpm"
+# define P_UP       "assets/player/player_up0.xpm"
+# define P_DOWN     "assets/player/player_down0.xpm"
+# define P_LEFT     "assets/player/player_left0.xpm"
+# define P_RIGHT    "assets/player/player_right0.xpm"
 
 // Game Window
 # define MAX_WINDOW_WIDTH	1280
