@@ -6,7 +6,7 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 15:53:16 by paalexan          #+#    #+#              #
-#    Updated: 2025/03/28 17:17:52 by paalexan         ###   ########.fr        #
+#    Updated: 2025/03/30 13:49:39 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ OBJB_DIR		:= objb
 
 # Minilibx-linux
 MLX_DIR		:= minilibx-linux
-MLX			:= $(MLX_DIR)/libmlx.a
+MLX		:= $(MLX_DIR)/libmlx.a
 
 # Libft
 LIBFT_REPO	:= https://github.com/alteixeira20/42_libft.git
@@ -90,6 +90,7 @@ $(OBJB_DIR)/%.o: $(SRCB_GAME)/%.c
 
 # Rules
 all: $(LIBFT) $(MLX) $(GAME)
+
 bonus: $(BONUS)
 
 $(LIBFT):
