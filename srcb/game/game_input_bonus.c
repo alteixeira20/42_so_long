@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:06:44 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 19:02:39 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 15:31:43 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	update_player_pos(t_game *game, t_player *pos)
 	}
 	if (tile == 'E')
 	{
-		handle_exit(game);
+		handle_exit(game, pos);
 		return ;
 	}
 	if (tile == 'X')

@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:18:41 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 14:03:50 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 15:35:50 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	close_game(t_game *game, t_graphics *gfx)
 		mlx_destroy_display(gfx->mlx);
 		free(gfx->mlx);
 	}
-	free(game->map);
+	free_map(game->map);
 	exit(0);
 }
 

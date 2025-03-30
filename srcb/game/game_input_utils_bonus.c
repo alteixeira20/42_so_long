@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:17:21 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 19:03:36 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 15:31:59 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,13 @@ void	handle_collectible(t_game *game, t_player *pos)
 	set_player_pos(game, pos->x, pos->y);
 }
 
-void	handle_exit(t_game *game)
+void	handle_exit(t_game *game, t_player *pos)
 {
 	if (game->collectibles == 0)
+	{
+		set_player_pos(game, pos->x, pos->y);
 		close_game(game, &game->gfx);
+	}
 	else
 		return ;
 }
