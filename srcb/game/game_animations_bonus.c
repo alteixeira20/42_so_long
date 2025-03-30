@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:37 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 18:37:29 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 15:16:37 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,26 @@ void	play_move_anim(t_game *game, t_anim *anim, int dir)
 	int			i;
 	int			step;
 	t_player	offset;
+	int			px;
+	int			py;
 
 	set_offset(&offset, dir);
 	i = 0;
 	while (i < anim->frame_count)
 	{
 		step = (game->gfx.tile_size * i) / anim->frame_count;
+		px = (game->player_x * game->gfx.tile_size) + (offset.x * step);
+		py = (game->player_y * game->gfx.tile_size) + (offset.y * step);
+		if (dir == 0 && game->map[game->player_y + 1][game->player_x] == '0')
+			mlx_put_image_to_window(game->gfx.mlx, game->gfx.window,
+				game->gfx.tx.floor, px, py + game->gfx.tile_size);
+		if (dir == 1 && game->map[game->player_y - 1][game->player_x] == '0')
+			mlx_put_image_to_window(game->gfx.mlx, game->gfx.window,
+				game->gfx.tx.floor, px, py - game->gfx.tile_size);
 		mlx_put_image_to_window(game->gfx.mlx, game->gfx.window,
-			anim->frames[i],
-			(game->player_x * game->gfx.tile_size) + (offset.x * step),
-			(game->player_y * game->gfx.tile_size) + (offset.y * step));
-		mlx_do_sync(game->gfx.mlx);
+			anim->frames[i], px, py);
 		usleep(anim->delay * 242);
+		mlx_do_sync(game->gfx.mlx);
 		i++;
 	}
 }
