@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:44:41 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/24 23:16:01 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 14:03:10 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static int	is_ready(char **map)
 	}
 	if (!is_map_valid(map))
 	{
-		free(map);
+		free_map(map);
 		return (0);
 	}
 	if (!is_map_solvable(map))
 	{
-		free(map);
+		free_map(map);
 		return (0);
 	}
 	return (1);
