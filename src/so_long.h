@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:00:30 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/29 18:24:40 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 19:25:45 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	close_game(t_game *game, t_graphics *gfx);
 int		load_textures(t_graphics *gfx);
 void	free_textures(t_graphics *gfx);
 int		count_collectibles(char **map);
+int		check_invalid_chars(char **map);
 
 // Map Functions
 int		get_map_height(char *mapname);

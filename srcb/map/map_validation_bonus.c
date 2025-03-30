@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_validation.c                                   :+:      :+:    :+:   */
+/*   map_validation_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:59:13 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/27 17:05:57 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 19:28:19 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,11 @@ int	is_map_valid(char **map)
 	if (!is_map_solvable(map))
 	{
 		ft_printf("Error\n	Map is not solvable.\n");
+		return (0);
+	}
+	if (!check_invalid_chars(map))
+	{
+		ft_printf("Error\n	Invalid chars found.\n");
 		return (0);
 	}
 	return (1);

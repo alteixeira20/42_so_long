@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:06:44 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 15:31:43 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 19:30:51 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	update_player_pos(t_game *game, t_player *pos)
 	}
 	if (tile == 'X')
 	{
+		set_player_pos(game, pos->x, pos->y);
 		ft_printf("You touched an enemy. Game over!\n");
 		close_game(game, &game->gfx);
 	}

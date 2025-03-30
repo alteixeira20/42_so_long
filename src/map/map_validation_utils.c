@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:57:21 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/24 19:28:26 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 19:21:45 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,31 @@ int	count_collectibles(char **map)
 		i++;
 	}
 	return (count);
+}
+
+static int	is_char_valid(char c)
+{
+	if (c == '1' || c == '0' || c == 'P' || c == 'E' || c == 'C')
+		return (1);
+	return (0);
+}
+
+int	check_invalid_chars(char **map)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j] && map[i][j] != '\n')
+		{
+			if (!is_char_valid(map[i][j]))
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
