@@ -6,7 +6,7 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 15:53:16 by paalexan          #+#    #+#              #
-#    Updated: 2025/03/30 14:17:16 by paalexan         ###   ########.fr        #
+#    Updated: 2025/03/30 15:58:50 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,7 +134,7 @@ start:
 			echo "$(ORANGE)Choose map type:$(RESET)"; \
 			echo " 1) Invalid"; \
 			echo " 2) Valid"; \
-			echo " $(GREY)$(BOLD)Quit$(RESET)"; \
+			echo " $(GREY)$(BOLD)q) Quit$(RESET)"; \
 			echo ""; \
 			read -p "Enter your choice: " TYPE_CHOICE; \
 			if [ "$$TYPE_CHOICE" = "q" ]; then exit 0; fi; \
