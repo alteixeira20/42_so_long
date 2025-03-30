@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:12:16 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/18 18:39:25 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/03/30 15:45:49 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ static void	flood_fill(char **map, int x, int y)
 {
 	if (map[y][x] == '1' || map[y][x] == 'F')
 		return ;
+	if (map[y][x] == 'E')
+	{
+		map[y][x] = 'F';
+		return ;
+	}
 	map[y][x] = 'F';
 	flood_fill(map, x + 1, y);
 	flood_fill(map, x - 1, y);
