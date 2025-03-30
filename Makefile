@@ -6,12 +6,12 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 15:53:16 by paalexan          #+#    #+#              #
-#    Updated: 2025/03/30 13:49:39 by paalexan         ###   ########.fr        #
+#    Updated: 2025/03/30 14:17:16 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler & Flags
-CC			:= cc
+CC		:= cc
 CFLAGS		:= -Wall -Werror -Wextra -g
 VFLAGS		:= --leak-check=full --show-leak-kinds=all --track-origins=yes
 MLX_FLAGS	:= -Lmlx -lXext -lX11
@@ -26,7 +26,7 @@ OBJ_DIR		:= obj
 SRCB_MAIN	:= srcb
 SRCB_MAPS	:= srcb/map
 SRCB_GAME	:= srcb/game
-OBJB_DIR		:= objb
+OBJB_DIR	:= objb
 
 # Minilibx-linux
 MLX_DIR		:= minilibx-linux
@@ -49,12 +49,12 @@ OBJ			:= $(patsubst $(SRC_MAIN)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 # Source Bonus Files
 SRCB			:= $(SRCB_MAIN)/so_long_bonus.c \
-				$(SRCB_MAPS)/map_parser_bonus.c \
-				$(SRCB_MAPS)/map_validation_bonus.c $(SRCB_MAPS)/map_validation_utils_bonus.c \
-				$(SRCB_MAPS)/map_pathfinding_bonus.c $(SRCB_MAPS)/map_pathfinding_utils_bonus.c \
-				$(SRCB_GAME)/game_init_bonus.c $(SRCB_GAME)/game_render_bonus.c \
-				$(SRCB_GAME)/game_assets_bonus.c $(SRCB_GAME)/game_animations_bonus.c \
-				$(SRCB_GAME)/game_input_bonus.c $(SRCB_GAME)/game_input_utils_bonus.c
+			   $(SRCB_MAPS)/map_parser_bonus.c \
+			   $(SRCB_MAPS)/map_validation_bonus.c $(SRCB_MAPS)/map_validation_utils_bonus.c \
+			   $(SRCB_MAPS)/map_pathfinding_bonus.c $(SRCB_MAPS)/map_pathfinding_utils_bonus.c \
+			   $(SRCB_GAME)/game_init_bonus.c $(SRCB_GAME)/game_render_bonus.c \
+			   $(SRCB_GAME)/game_assets_bonus.c $(SRCB_GAME)/game_animations_bonus.c \
+			   $(SRCB_GAME)/game_input_bonus.c $(SRCB_GAME)/game_input_utils_bonus.c
 
 OBJB			:= $(patsubst $(SRCB_MAIN)/%.c, $(OBJB_DIR)/%.o, $(SRCB))
 
@@ -113,14 +113,28 @@ $(BONUS): $(LIBFT) $(MLX) $(OBJB)
 	@$(CC) $(CFLAGS) $(OBJB) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(GAME)
 	@echo "$(ORANGE)$(PREFIX)$(RESET) $(BOLD)Bonus Game$(RESET) compiled $(GREEN)successfully$(RESET)."
 
+
 start:
 	@bash -c ' \
+		# Check for .ber maps in working directory \
+		EXISTING_MAPS=$$(find . -maxdepth 1 -name "*.ber"); \
+		if [ ! -z "$$EXISTING_MAPS" ]; then \
+			echo "$(ORANGE)$(PREFIX)$(RESET) Found map(s) in current directory:"; \
+			echo "$$EXISTING_MAPS"; \
+			read -p "Do you want to $(RED)delete$(RESET) them before continuing? (y/n): " DELETE_CONFIRM; \
+			if [ "$$DELETE_CONFIRM" = "y" ]; then \
+				rm -f *.ber; \
+				echo "$(ORANGE)$(PREFIX)$(RESET) Deleted old map(s)."; \
+			else \
+				echo "$(ORANGE)$(PREFIX)$(RESET) Keeping existing map(s)."; \
+			fi; \
+		fi; \
 		while true; do \
 			clear; \
 			echo "$(ORANGE)Choose map type:$(RESET)"; \
 			echo " 1) Invalid"; \
 			echo " 2) Valid"; \
-			echo " q) $(GREY)Quit$(RESET)"; \
+			echo " $(GREY)$(BOLD)Quit$(RESET)"; \
 			echo ""; \
 			read -p "Enter your choice: " TYPE_CHOICE; \
 			if [ "$$TYPE_CHOICE" = "q" ]; then exit 0; fi; \
@@ -183,6 +197,17 @@ start:
 			done; \
 		done'
 
+valgrind_test:
+	@echo "$(ORANGE)$(PREFIX)$(RESET) Running Valgrind leak checks on invalid maps..."
+	@for map in maps/invalid/*.ber; do \
+		valgrind --leak-check=full --error-exitcode=42 ./$(GAME) $$map > /dev/null 2>&1; \
+		if [ $$? -eq 42 ]; then \
+			echo "$(RED)$(PREFIX)$(RESET) Map $$map $(RED)failed$(RESET) Valgrind test."; \
+		else \
+			echo "$(GREEN)$(PREFIX)$(RESET) Map $$map $(GREEN)passed$(RESET) Valgrind test."; \
+		fi; \
+	done
+
 clean:
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(OBJB_DIR)
@@ -205,4 +230,4 @@ RESET	:= $(shell tput sgr0)
 GREY	:= $(shell tput setaf 8)
 ORANGE	:= $(shell tput setaf 214)
 
-.PHONY: all clean fclean re bonus start
+.PHONY: all clean fclean re bonus start valgrind_test
