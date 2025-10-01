@@ -11,31 +11,31 @@
 # **************************************************************************** #
 
 # Compiler & Flags
-CC		:= cc
-CFLAGS		:= -Wall -Werror -Wextra -g
-VFLAGS		:= --leak-check=full --show-leak-kinds=all --track-origins=yes
-MLX_FLAGS	:= -Lmlx -lXext -lX11
+CC			:= cc
+CFLAGS			:= -Wall -Werror -Wextra -g
+VFLAGS			:= --leak-check=full --show-leak-kinds=all --track-origins=yes
+MLX_FLAGS		:= -Lmlx -lXext -lX11
 
 # Source Directories
-SRC_MAIN	:= src
-SRC_MAPS	:= src/map
-SRC_GAME	:= src/game
-OBJ_DIR		:= obj
+SRC_MAIN		:= src
+SRC_MAPS		:= src/map
+SRC_GAME		:= src/game
+OBJ_DIR			:= obj
 
 # Source Bonus Directories
-SRCB_MAIN	:= srcb
-SRCB_MAPS	:= srcb/map
-SRCB_GAME	:= srcb/game
-OBJB_DIR	:= objb
+SRCB_MAIN		:= srcb
+SRCB_MAPS		:= srcb/map
+SRCB_GAME		:= srcb/game
+OBJB_DIR		:= objb
 
 # Minilibx-linux
-MLX_DIR		:= mlx
-MLX		:= $(MLX_DIR)/libmlx.a
+MLX_DIR			:= mlx
+MLX			:= $(MLX_DIR)/libmlx.a
 
 # Libft
-LIBFT_REPO	:= https://github.com/alteixeira20/42_libft.git
-LIBFT_DIR	:= libft
-LIBFT		:= $(LIBFT_DIR)/libft.a
+LIBFT_REPO		:= https://github.com/alteixeira20/42_libft.git
+LIBFT_DIR		:= libft
+LIBFT			:= $(LIBFT_DIR)/libft.a
 
 # Source Files
 SRC			:= $(SRC_MAIN)/so_long.c \
@@ -61,6 +61,15 @@ OBJB			:= $(patsubst $(SRCB_MAIN)/%.c, $(OBJB_DIR)/%.o, $(SRCB))
 # Executable
 GAME			:= so_long
 BONUS			:= so_long_bonus
+
+# Asset Collections
+TEXTURES		:= $(shell find assets -type f -name "*.xpm" | sort)
+TEXTURE_TEST_MAP	:= $(shell find assets/maps/valid -type f -name "*.ber" | sort | head -n 1)
+HAS_TEXTURE_MAP		:= $(shell if [ -n "$(TEXTURE_TEST_MAP)" ]; then echo 1; else echo 0; fi)
+HAS_INVALID_MAP		:= $(shell [ -f assets/maps/invalid/invalid_char.ber ] && echo 1 || echo 0)
+
+# Map Collections
+INVALID_MAPS		:= $(shell find assets/maps/invalid -type f -name "*.ber" | sort)
 
 # Targets Mandatory
 $(OBJ_DIR)/%.o: $(SRC_MAIN)/%.c
@@ -91,8 +100,6 @@ $(OBJB_DIR)/%.o: $(SRCB_GAME)/%.c
 # Rules
 all: $(MLX) $(LIBFT) $(GAME)
 
-bonus: $(BONUS)
-
 $(LIBFT):
 	@if [ ! -d "$(LIBFT_DIR)" ]; then \
 		echo "$(ORANGE)$(PREFIX)$(RESET) Cloning $(BOLD)Libft$(RESET) and waiting for compilation..."; \
@@ -109,11 +116,12 @@ $(GAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(GAME)
 	@echo "$(ORANGE)$(PREFIX)$(RESET) $(BOLD)Game$(RESET) compiled $(GREEN)successfully$(RESET)."
 
-$(BONUS): $(LIBFT) $(MLX) $(OBJB)
-	@rm -f $(GAME)
+bonus: $(LIBFT) $(MLX) $(OBJB)
+	@if [ -f "$(GAME)" ]; then \
+		rm -f $(GAME); \
+	fi
 	@$(CC) $(CFLAGS) $(OBJB) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(GAME)
 	@echo "$(ORANGE)$(PREFIX)$(RESET) $(BOLD)Bonus Game$(RESET) compiled $(GREEN)successfully$(RESET)."
-
 
 start:
 	@bash -c ' \
@@ -198,16 +206,103 @@ start:
 			done; \
 		done'
 
-valgrind_test:
-	@echo "$(ORANGE)$(PREFIX)$(RESET) Running Valgrind leak checks on invalid maps..."
-	@for map in assets/maps/invalid/*.ber; do \
-		valgrind --leak-check=full --error-exitcode=42 ./$(GAME) $$map > /dev/null 2>&1; \
-		if [ $$? -eq 42 ]; then \
-			echo "$(RED)$(PREFIX)$(RESET) Map $$map $(RED)failed$(RESET) Valgrind test."; \
-		else \
-			echo "$(GREEN)$(PREFIX)$(RESET) Map $$map $(GREEN)passed$(RESET) Valgrind test."; \
+test_invalid:
+	@bash -c ' \
+		if [ ! -f "$(GAME)" ]; then \
+			echo "$(YELLOW)$(PREFIX)$(RESET) No executable found. Please compile the project first (make bonus)."; \
+			exit 0; \
 		fi; \
-	done
+		if [ -z "$(INVALID_MAPS)" ]; then \
+			echo "$(YELLOW)$(PREFIX)$(RESET) No invalid maps found in assets/maps/invalid."; \
+			exit 0; \
+		fi; \
+		status=0; passed=0; failed=0; \
+		echo "$(ORANGE)$(PREFIX)$(RESET) Running Tests on Invalid Maps..."; \
+		for map in $(INVALID_MAPS); do \
+			echo ; \
+			printf "Testing map %s:\\n" "$(YELLOW)$$(basename "$$map")$(RESET)"; \
+			msg_output=$$(./$(GAME) "$$map" 2>&1 || true); \
+			first=$$(printf "%s" "$$msg_output" | sed -n '1p'); \
+			error_line=$$(printf "%s" "$$msg_output" | sed -n "2p"); \
+			err_ok=1; \
+			if [ "$$first" = "Error" ] && [ -n "$$error_line" ]; then \
+				printf "  Error Msg: %s%s%s %s\\n" "$(GREY)" "$$error_line" "$(RESET)" "$(GREEN)OK$(RESET)"; \
+			else \
+				printf "  Error Msg: %s%s%s %s\\n" "$(GREY)" "$$error_line" "$(RESET)" "$(RED)KO$(RESET)"; \
+				printf "%s\\n" "$$msg_output"; \
+				err_ok=0; \
+			fi; \
+			tmp=$$(mktemp); \
+			valgrind --leak-check=full --error-exitcode=42 --log-file=$$tmp ./$(GAME) "$$map" > /dev/null 2>&1 || true; \
+			vg_output=$$(cat $$tmp); rm -f $$tmp; \
+			vg_ok=1; \
+			if printf "%s\\n" "$$vg_output" | grep -q "ERROR SUMMARY: 0"; then \
+				printf "  Valgrind: %sOK%s\\n" "$(GREEN)" "$(RESET)"; \
+			else \
+				printf "  Valgrind: %sKO%s\\n" "$(RED)" "$(RESET)"; \
+				printf "%s\\n" "$$vg_output"; \
+				vg_ok=0; \
+			fi; \
+			if [ "$$err_ok" -eq 1 ] && [ "$$vg_ok" -eq 1 ]; then \
+				passed=$$((passed + 1)); \
+			else \
+				failed=$$((failed + 1)); \
+				status=1; \
+			fi; \
+		done; \
+		if [ "$$failed" -eq 0 ]; then \
+			echo "$(ORANGE)$(PREFIX)$(RESET) Congratulations you passed all $(GREEN)$$passed$(RESET) tests."; \
+		else \
+			echo "$(ORANGE)$(PREFIX)$(RESET) Passed $(GREEN)$$passed$(RESET) tests and $(RED)$$failed$(RESET) tests."; \
+		fi; \
+		exit $$status'
+
+
+
+
+test_textures:
+	@bash -c ' \
+		if [ ! -f "$(GAME)" ]; then \
+			echo "$(YELLOW)$(PREFIX)$(RESET) No executable found. Please compile the project first (make bonus)."; \
+			exit 0; \
+		fi; \
+		if [ -z "$(TEXTURES)" ]; then \
+			echo "$(YELLOW)$(PREFIX)$(RESET) No textures found in assets."; \
+			exit 0; \
+		fi; \
+		if [ $(HAS_TEXTURE_MAP) -eq 0 ]; then \
+			echo "$(YELLOW)$(PREFIX)$(RESET) No valid map found in assets/maps/valid for texture tests."; \
+			exit 1; \
+		fi; \
+		status=0; passed=0; failed=0; \
+		for texture in $(TEXTURES); do \
+			bname=$$(basename "$$texture"); \
+			dirname=$$(dirname "$$texture"); \
+			echo ; \
+			printf "Testing texture %s (dir %s):\\n" "$(YELLOW)$$bname$(RESET)" "$$dirname"; \
+			save_perms=$$(stat -c %a "$$texture"); \
+			chmod 000 "$$texture"; \
+			msg_output=$$(./$(GAME) $(TEXTURE_TEST_MAP) 2>&1 || true); \
+			chmod $$save_perms "$$texture"; \
+			error_line=$$(printf "%s" "$$msg_output" | sed -n "2p"); \
+			if printf "%s" "$$error_line" | grep -qi "$$bname"; then \
+				printf "  Error Msg: %s%s%s %s\\n" "$(GREY)" "$$error_line" "$(RESET)" "$(GREEN)OK$(RESET)"; \
+				passed=$$((passed + 1)); \
+			else \
+				printf "  Error Msg: %s%s%s %s\\n" "$(GREY)" "$$error_line" "$(RESET)" "$(RED)KO$(RESET)"; \
+				printf "%s\\n" "$$msg_output"; \
+				failed=$$((failed + 1)); \
+				status=1; \
+			fi; \
+			done; \
+		if [ "$$failed" -eq 0 ]; then \
+			echo "$(ORANGE)$(PREFIX)$(RESET) Congratulations you passed all $(GREEN)$$passed$(RESET) texture tests."; \
+		else \
+			echo "$(ORANGE)$(PREFIX)$(RESET) Texture tests: $(GREEN)$$passed$(RESET) passed, $(RED)$$failed$(RESET) failed."; \
+		fi; \
+		exit $$status'
+
+tester: test_invalid test_textures
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -231,4 +326,4 @@ RESET	:= $(shell tput sgr0)
 GREY	:= $(shell tput setaf 8)
 ORANGE	:= $(shell tput setaf 214)
 
-.PHONY: all clean fclean re bonus start valgrind_test
+.PHONY: all clean fclean re bonus start test_invalid test_textures tester
