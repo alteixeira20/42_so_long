@@ -29,7 +29,7 @@ SRCB_GAME	:= srcb/game
 OBJB_DIR	:= objb
 
 # Minilibx-linux
-MLX_DIR		:= minilibx-linux
+MLX_DIR		:= mlx
 MLX		:= $(MLX_DIR)/libmlx.a
 
 # Libft
