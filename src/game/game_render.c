@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:59:35 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/24 22:19:56 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:18:12 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../../inc/so_long.h"
 
 static void	render_tile(t_game *game, t_graphics *gfx, int x, int y)
 {

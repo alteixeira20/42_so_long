@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:22:19 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/18 18:37:15 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:17:44 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../../inc/so_long.h"
 
 void	free_dup(char **dup)
 {

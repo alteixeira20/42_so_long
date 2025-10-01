@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_parser.c                                       :+:      :+:    :+:   */
+/*   map_parser_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:24:23 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/27 17:05:26 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:21:54 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
 int	get_map_height(char *mapname)
 {

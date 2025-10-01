@@ -6,31 +6,35 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:59:35 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 15:13:43 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:21:50 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
-static void	render_tile(t_game *game, t_graphics *gfx, int x, int y)
+void	draw_tile(t_game *game, t_graphics *gfx, int x, int y)
 {
-	void	*img;
-	char	tile;
+	char		tile;
 
 	tile = game->map[y][x];
-	img = gfx->tx.floor;
-	if (tile == '1')
-		img = gfx->tx.wall;
-	else if (tile == 'C')
-		img = gfx->tx.collectible;
-	else if (tile == 'E')
-		img = gfx->tx.exit;
-	else if (tile == 'P')
-		img = game->gfx.tx.move_anim[game->p_dir].frames[game->p_frame];
-	else if (tile == 'X')
-		img = gfx->tx.enemy;
-	mlx_put_image_to_window(gfx->mlx, gfx->window, img,
+	mlx_put_image_to_window(gfx->mlx, gfx->window, gfx->tx.floor,
 		x * gfx->tile_size, y * gfx->tile_size);
+	if (tile == '1')
+		mlx_put_image_to_window(gfx->mlx, gfx->window, gfx->tx.wall,
+			x * gfx->tile_size, y * gfx->tile_size);
+	else if (tile == 'C')
+		mlx_put_image_to_window(gfx->mlx, gfx->window,
+			gfx->tx.collectible, x * gfx->tile_size, y * gfx->tile_size);
+	else if (tile == 'E')
+		mlx_put_image_to_window(gfx->mlx, gfx->window,
+			gfx->tx.exit, x * gfx->tile_size, y * gfx->tile_size);
+	else if (tile == 'P')
+		mlx_put_image_to_window(gfx->mlx, gfx->window,
+			gfx->tx.move_anim[game->p_dir].frames[game->p_frame],
+			x * gfx->tile_size, y * gfx->tile_size);
+	else if (tile == 'X')
+		mlx_put_image_to_window(gfx->mlx, gfx->window, gfx->tx.enemy,
+			x * gfx->tile_size, y * gfx->tile_size);
 }
 
 static void	draw_move_counter(t_game *game)
@@ -61,7 +65,7 @@ void	render_map(t_game *game, t_graphics *gfx)
 		x = 0;
 		while (x < game->width)
 		{
-			render_tile(game, gfx, x, y);
+			draw_tile(game, gfx, x, y);
 			x++;
 		}
 		y++;

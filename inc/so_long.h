@@ -6,14 +6,14 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:00:30 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 19:25:45 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:22:11 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "../minilibx-linux/mlx.h"
+# include "../mlx/mlx.h"
 # include "../libft/libft/libft.h"
 # include "../libft/printf/ft_printf_bonus.h"
 # include "../libft/gnl/get_next_line_bonus.h"

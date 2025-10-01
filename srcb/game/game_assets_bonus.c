@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:35:38 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/28 18:11:17 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:21:41 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
 static int	load_image(void **img, void *mlx, char *path)
 {
@@ -28,6 +28,8 @@ static int	load_image(void **img, void *mlx, char *path)
 
 int	load_textures(t_graphics *gfx)
 {
+	int	dir;
+
 	if (!load_image(&gfx->tx.floor, gfx->mlx, FLOOR)
 		|| !load_image(&gfx->tx.wall, gfx->mlx, WALL)
 		|| !load_image(&gfx->tx.collectible, gfx->mlx, COLLECT)
@@ -42,6 +44,12 @@ int	load_textures(t_graphics *gfx)
 		|| !load_anim(gfx, &gfx->tx.mining_anim[2], MINE_LEFT, MINE_FRAMES)
 		|| !load_anim(gfx, &gfx->tx.mining_anim[3], MINE_RIGHT, MINE_FRAMES))
 		return (0);
+	dir = 0;
+	while (dir < 4)
+	{
+		gfx->tx.mining_anim[dir].delay = 130;
+		dir++;
+	}
 	return (1);
 }
 

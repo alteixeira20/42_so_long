@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:06:44 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/27 16:46:47 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:18:10 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../../inc/so_long.h"
 
 static void	set_player_pos(t_game *game, int x, int y)
 {

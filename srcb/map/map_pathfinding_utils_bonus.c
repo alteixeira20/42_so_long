@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_pathfinding_utils.c                            :+:      :+:    :+:   */
+/*   map_pathfinding_utils_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:22:19 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/27 17:05:35 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:18:39 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
 void	free_dup(char **dup)
 {

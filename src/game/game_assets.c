@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:35:38 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/24 22:02:04 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:18:05 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../../inc/so_long.h"
 
 static int	load_image(void **img, void *mlx, char *path)
 {

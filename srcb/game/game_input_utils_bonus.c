@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:17:21 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 15:31:59 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:21:48 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
 void	set_direction(int key, t_player *pos)
 {
@@ -66,6 +66,8 @@ void	handle_exit(t_game *game, t_player *pos)
 	if (game->collectibles == 0)
 	{
 		set_player_pos(game, pos->x, pos->y);
+		ft_printf("Congratulations you finished the game with %d moves.\n",
+			game->moves);
 		close_game(game, &game->gfx);
 	}
 	else

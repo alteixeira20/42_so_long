@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:24:23 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/19 19:45:21 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:18:18 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../../inc/so_long.h"
 
 int	get_map_height(char *mapname)
 {

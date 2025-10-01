@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:06:44 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 19:30:51 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:21:45 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
 static void	update_player_pos(t_game *game, t_player *pos)
 {
@@ -36,7 +36,6 @@ static void	update_player_pos(t_game *game, t_player *pos)
 		close_game(game, &game->gfx);
 	}
 	game->map[game->player_y][game->player_x] = '0';
-	render_map(game, &game->gfx);
 	play_move_anim(game, &game->gfx.tx.move_anim[game->p_dir], game->p_dir);
 	set_player_pos(game, pos->x, pos->y);
 }

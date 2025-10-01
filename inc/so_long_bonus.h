@@ -6,14 +6,14 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:00:30 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 19:28:10 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:22:17 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_BONUS_H
 # define SO_LONG_BONUS_H
 
-# include "../minilibx-linux/mlx.h"
+# include "../mlx/mlx.h"
 # include "../libft/libft/libft.h"
 # include "../libft/printf/ft_printf_bonus.h"
 # include "../libft/gnl/get_next_line_bonus.h"
@@ -68,6 +68,20 @@ typedef struct s_player
 	int	dir;
 }	t_player;
 
+typedef struct s_anim_ctx
+{
+	int			origin_x;
+	int			origin_y;
+	int			delta_x;
+	int			delta_y;
+	int			start_x;
+	int			start_y;
+	int			dest_x;
+	int			dest_y;
+	int			denom;
+	int			index;
+}		t_anim_ctx;
+
 // Game Keys
 # define KEY_ESC	65307
 # define KEY_W		119
@@ -98,6 +112,7 @@ typedef struct s_player
 # define TILE_SIZE			64
 
 // Game Functions
+void	draw_tile(t_game *game, t_graphics *gfx, int x, int y);
 void	render_map(t_game *game, t_graphics *gfx);
 void	start_game(t_game *game);
 void	close_game(t_game *game, t_graphics *gfx);

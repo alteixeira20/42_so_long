@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:12:16 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 15:45:49 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:17:41 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../../inc/so_long.h"
 
 static void	find_player(char **map, int *x, int *y)
 {

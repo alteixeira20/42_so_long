@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 18:57:21 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 19:31:29 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:18:43 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
 int	get_last_row(char **map)
 {

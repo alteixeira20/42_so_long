@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:18:41 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 15:35:50 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:18:07 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../../inc/so_long.h"
 
 static int	handle_exit(void *param)
 {

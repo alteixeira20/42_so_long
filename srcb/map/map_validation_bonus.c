@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:59:13 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 19:28:19 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:18:42 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
 static int	is_rectangular(char **map)
 {

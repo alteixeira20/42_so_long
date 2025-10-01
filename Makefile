@@ -89,7 +89,7 @@ $(OBJB_DIR)/%.o: $(SRCB_GAME)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Rules
-all: $(LIBFT) $(MLX) $(GAME)
+all: $(MLX) $(LIBFT) $(GAME)
 
 bonus: $(BONUS)
 
@@ -103,6 +103,7 @@ $(LIBFT):
 
 $(MLX):
 	@$(MAKE) -C $(MLX_DIR) > /dev/null 2>&1
+	@echo "$(ORANGE)$(PREFIX)$(RESET) $(BOLD)Minilibx-linux$(RESET) compiled $(GREEN)successfully$(RESET)."
 
 $(GAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(GAME)
@@ -139,9 +140,9 @@ start:
 			read -p "Enter your choice: " TYPE_CHOICE; \
 			if [ "$$TYPE_CHOICE" = "q" ]; then exit 0; fi; \
 			if [ "$$TYPE_CHOICE" = "1" ]; then \
-				MAP_DIR="maps/invalid"; \
+				MAP_DIR="assets/maps/invalid"; \
 			elif [ "$$TYPE_CHOICE" = "2" ]; then \
-				MAP_DIR="maps/valid"; \
+				MAP_DIR="assets/maps/valid"; \
 			else \
 				echo "Invalid choice. Please choose 1, 2, or q."; \
 				sleep 1; continue; \
@@ -199,7 +200,7 @@ start:
 
 valgrind_test:
 	@echo "$(ORANGE)$(PREFIX)$(RESET) Running Valgrind leak checks on invalid maps..."
-	@for map in maps/invalid/*.ber; do \
+	@for map in assets/maps/invalid/*.ber; do \
 		valgrind --leak-check=full --error-exitcode=42 ./$(GAME) $$map > /dev/null 2>&1; \
 		if [ $$? -eq 42 ]; then \
 			echo "$(RED)$(PREFIX)$(RESET) Map $$map $(RED)failed$(RESET) Valgrind test."; \

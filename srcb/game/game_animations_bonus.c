@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:37 by paalexan          #+#    #+#             */
-/*   Updated: 2025/03/30 15:16:37 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:21:39 by alteixeira20     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long_bonus.h"
+#include "../../inc/so_long_bonus.h"
 
 static char	*generate_frame_path(const char *prefix, int index)
 {
@@ -30,47 +30,52 @@ static char	*generate_frame_path(const char *prefix, int index)
 	return (full);
 }
 
-static void	set_offset(t_player *offset, int dir)
+static void	init_anim_ctx(t_anim_ctx *ctx, t_game *game, t_anim *anim, int dir)
 {
-	offset->x = 0;
-	offset->y = 0;
+	ctx->delta_x = 0;
+	ctx->delta_y = 0;
 	if (dir == 0)
-		offset->y = -1;
+		ctx->delta_y = -1;
 	else if (dir == 1)
-		offset->y = 1;
+		ctx->delta_y = 1;
 	else if (dir == 2)
-		offset->x = -1;
+		ctx->delta_x = -1;
 	else if (dir == 3)
-		offset->x = 1;
+		ctx->delta_x = 1;
+	ctx->start_x = game->player_x;
+	ctx->start_y = game->player_y;
+	ctx->dest_x = ctx->start_x + ctx->delta_x;
+	ctx->dest_y = ctx->start_y + ctx->delta_y;
+	ctx->origin_x = ctx->start_x * game->gfx.tile_size;
+	ctx->origin_y = ctx->start_y * game->gfx.tile_size;
+	ctx->index = 0;
+	ctx->denom = anim->frame_count - 1;
+	if (ctx->denom <= 0)
+		ctx->denom = 1;
 }
 
 void	play_move_anim(t_game *game, t_anim *anim, int dir)
 {
-	int			i;
 	int			step;
-	t_player	offset;
-	int			px;
-	int			py;
+	t_anim_ctx	ctx;
 
-	set_offset(&offset, dir);
-	i = 0;
-	while (i < anim->frame_count)
+	init_anim_ctx(&ctx, game, anim, dir);
+	while (ctx.index < anim->frame_count)
 	{
-		step = (game->gfx.tile_size * i) / anim->frame_count;
-		px = (game->player_x * game->gfx.tile_size) + (offset.x * step);
-		py = (game->player_y * game->gfx.tile_size) + (offset.y * step);
-		if (dir == 0 && game->map[game->player_y + 1][game->player_x] == '0')
-			mlx_put_image_to_window(game->gfx.mlx, game->gfx.window,
-				game->gfx.tx.floor, px, py + game->gfx.tile_size);
-		if (dir == 1 && game->map[game->player_y - 1][game->player_x] == '0')
-			mlx_put_image_to_window(game->gfx.mlx, game->gfx.window,
-				game->gfx.tx.floor, px, py - game->gfx.tile_size);
+		draw_tile(game, &game->gfx, ctx.start_x, ctx.start_y);
+		if (ctx.dest_x >= 0 && ctx.dest_x < game->width
+			&& ctx.dest_y >= 0 && ctx.dest_y < game->height)
+			draw_tile(game, &game->gfx, ctx.dest_x, ctx.dest_y);
+		step = (game->gfx.tile_size * ctx.index) / ctx.denom;
 		mlx_put_image_to_window(game->gfx.mlx, game->gfx.window,
-			anim->frames[i], px, py);
+			anim->frames[ctx.index],
+			ctx.origin_x + (ctx.delta_x * step),
+			ctx.origin_y + (ctx.delta_y * step));
 		usleep(anim->delay * 242);
 		mlx_do_sync(game->gfx.mlx);
-		i++;
+		ctx.index++;
 	}
+	game->p_frame = 0;
 }
 
 void	play_mining_anim(t_graphics *gfx, t_anim *animation, int x, int y)
