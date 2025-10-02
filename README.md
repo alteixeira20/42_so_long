@@ -1,5 +1,3 @@
----
-
 <p align="center">
   <img src="https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white" alt="C badge">
   <img src="https://img.shields.io/badge/MiniLibX-5C6BC0?style=for-the-badge&logo=opengl&logoColor=white" alt="MiniLibX badge">
@@ -13,8 +11,6 @@
 <p align="center">
   <img src="docs/images/running_game.gif" alt="Gameplay showcase" width="85%">
 </p>
-
----
 
 ## Table of Contents
 1. [At a Glance](#at-a-glance)
