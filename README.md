@@ -1,18 +1,20 @@
-<h1 align="center">so_long</h1>
-<p align="center">MiniLibX-powered 2D exploration with animated sprite work, full map validation, and a Makefile-driven test bench.</p>
-
-<p align="center">
-  <img src="docs/images/running_game.gif" alt="Gameplay showcase" width="85%">
-</p>
+---
 
 <p align="center">
   <img src="https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white" alt="C badge">
   <img src="https://img.shields.io/badge/MiniLibX-5C6BC0?style=for-the-badge&logo=opengl&logoColor=white" alt="MiniLibX badge">
   <img src="https://img.shields.io/badge/Make-427819?style=for-the-badge&logo=cmake&logoColor=white" alt="Make badge">
-  <img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" alt="Bash badge">
+  <img src="https://img.shields.io/badge/Shell-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white" alt="Shell badge">
   <img src="https://img.shields.io/badge/Valgrind-773344?style=for-the-badge&logo=gnu&logoColor=white" alt="Valgrind badge">
-  <img src="https://img.shields.io/badge/Linux-000000?style=for-the-badge&logo=linux&logoColor=white" alt="Linux badge">
+  <img src="https://img.shields.io/badge/GDB-800000?style=for-the-badge&logo=gnu&logoColor=white" alt="GDB badge">
 </p>
+<h1 align="center">so_long</h1>
+<p align="center">MiniLibX-powered 2D exploration gane with animated sprite work, full map validation, with a built-in Tester.</p>
+<p align="center">
+  <img src="docs/images/running_game.gif" alt="Gameplay showcase" width="85%">
+</p>
+
+---
 
 ## Table of Contents
 1. [At a Glance](#at-a-glance)
@@ -55,53 +57,52 @@ make bonus && ./so_long assets/maps/valid/demo.ber
 <details>
 <summary><strong>Map validation</strong></summary>
 
-- Must be **rectangular** (`src/map/map_validation.c`).  
-- Must be **fully enclosed by walls** (`src/map/map_validation.c`).  
-- Accepts only the allowed characters:  
-  - `0` → empty space  
-  - `1` → wall  
-  - `C` → collectible  
-  - `E` → exit  
-  - `P` → player  
-  (implemented in `srcb/map/map_validation_utils_bonus.c:48`)  
+- Must be **rectangular** (`src/map/map_validation.c`).
+- Must be **fully enclosed by walls** (`src/map/map_validation.c`).
+- Accepts only the allowed characters:
+  - `0` → empty space
+  - `1` → wall
+  - `C` → collectible
+  - `E` → exit
+  - `P` → player
+  (implemented in `srcb/map/map_validation_utils_bonus.c:48`)
 
 </details>
 
 <details>
 <summary><strong>Required components</strong></summary>
 
-- Exactly **one player** and **one exit**.  
-- At least **one collectible**.  
-- Verified with `check_components_errors()`  
-  (`srcb/map/map_validation_utils_bonus.c:21`).  
+- Exactly **one player** and **one exit**.
+- At least **one collectible**.
+- Verified with `check_components_errors()`
+  (`srcb/map/map_validation_utils_bonus.c:21`).
 
 </details>
 
 <details>
 <summary><strong>Pathfinding</strong></summary>
 
-- `is_map_solvable()` duplicates the map and performs a **flood-fill** check.  
-- Confirms that **all collectibles and exits are reachable** before gameplay begins  
-  (`srcb/map/map_pathfinding_bonus.c:49`).  
+- `is_map_solvable()` duplicates the map and performs a **flood-fill** check.
+- Confirms that **all collectibles and exits are reachable** before gameplay begins (`srcb/map/map_pathfinding_bonus.c:49`).
 
 </details>
 
 <details>
 <summary><strong>Gameplay rules</strong></summary>
 
-- Movement with **WASD** (or arrow keys).  
-- Player cannot pass through walls.  
-- Move count is displayed after each step (terminal in mandatory, HUD overlay in bonus).  
-- Game exits cleanly via `ESC` or window close  
-  (`srcb/game/game_input_utils_bonus.c:36`).  
+- Movement with **WASD**.
+- Player cannot pass through walls.
+- Move count is displayed after each step (terminal in mandatory, HUD overlay in bonus).
+- Win the game by exiting the door after mining all the collectibles.
+- Quit the game by using `ESC` or window close (`srcb/game/game_input_utils_bonus.c:36`).
 
 </details>
 
 <details>
 <summary><strong>Error handling</strong></summary>
 
-- Any misconfiguration (duplicate exits, invalid chars, broken walls, unreachable areas)  
-  → exits cleanly with `Error\n` followed by an explicit descriptive message.  
+- Any misconfiguration (duplicate exits, invalid chars, broken walls, unreachable areas)
+  → exits cleanly with `Error\n` followed by an explicit descriptive message.
 
 </details>
 
@@ -222,7 +223,7 @@ make fclean     # removes binaries, objects, and the libft clone
 - `make tester` returns non-zero if any suite fails, so the target doubles as a CI check or a quick local regression test.
 
 ## Results & Reporting
-> **Signal over noise:** surface only the context needed for fast iteration.
+> **Signal over noise:** The tester and logs are designed to show only the important results (errors, verdicts, tallies) and hide unnecessary clutter for efficient debugging.
 - Console logs show per-case verdicts and aggregate tallies, making it obvious where to focus next.
 - Valgrind trace dumps appear only when something goes wrong, keeping successful runs concise.
 - During manual sessions, the on-screen move counter mirrors the terminal `printf` output so navigation errors are easy to trace.
