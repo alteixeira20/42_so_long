@@ -28,7 +28,6 @@
 11. [Internal Architecture](#internal-architecture)
 12. [Tester Workflow](#tester-workflow)
 13. [Results & Reporting](#results--reporting)
-14. [Related Projects](#related-projects)
 
 ## At a Glance
 > **Highlights:** Mandatory compliance, bonus animations, and repeatable validation in a single codebase.
@@ -49,16 +48,71 @@ make bonus && ./so_long assets/maps/valid/demo.ber
 - Libft (including `ft_printf`, `get_next_line`, and utility helpers) ships inside the repository, removing external dependencies for evaluators or teammates.
 
 ## Subject Compliance
-<details open>
-<summary><strong>Verification Highlights</strong></summary>
+> Every rule in the subject is explicitly validated before the game starts, ensuring predictable and safe gameplay.
 
-> Clearing Moulinette was the first gating factor; every subject bullet maps to a specific check.
-- Rectangular and wall integrity checks live in `src/map/map_validation.c` and `srcb/map/map_validation_bonus.c`, rejecting malformed perimeters before rendering.
-- `check_components_errors()` ensures exactly one player, one exit, and at least one collectible before gameplay begins (`srcb/map/map_validation_utils_bonus.c:21`).
-- `is_map_solvable()` duplicates the map, flood-fills from the player, and confirms that both exits and collectibles are reachable (`srcb/map/map_pathfinding_bonus.c:49`).
-- Invalid characters are caught early through `check_invalid_chars()` so only the sanctioned tile set is accepted (`srcb/map/map_validation_utils_bonus.c:48`).
+### Verification Highlights
+
+<details>
+<summary><strong>Map validation</strong></summary>
+
+- Must be **rectangular** (`src/map/map_validation.c`).  
+- Must be **fully enclosed by walls** (`src/map/map_validation.c`).  
+- Accepts only the allowed characters:  
+  - `0` → empty space  
+  - `1` → wall  
+  - `C` → collectible  
+  - `E` → exit  
+  - `P` → player  
+  (implemented in `srcb/map/map_validation_utils_bonus.c:48`)  
 
 </details>
+
+<details>
+<summary><strong>Required components</strong></summary>
+
+- Exactly **one player** and **one exit**.  
+- At least **one collectible**.  
+- Verified with `check_components_errors()`  
+  (`srcb/map/map_validation_utils_bonus.c:21`).  
+
+</details>
+
+<details>
+<summary><strong>Pathfinding</strong></summary>
+
+- `is_map_solvable()` duplicates the map and performs a **flood-fill** check.  
+- Confirms that **all collectibles and exits are reachable** before gameplay begins  
+  (`srcb/map/map_pathfinding_bonus.c:49`).  
+
+</details>
+
+<details>
+<summary><strong>Gameplay rules</strong></summary>
+
+- Movement with **WASD** (or arrow keys).  
+- Player cannot pass through walls.  
+- Move count is displayed after each step (terminal in mandatory, HUD overlay in bonus).  
+- Game exits cleanly via `ESC` or window close  
+  (`srcb/game/game_input_utils_bonus.c:36`).  
+
+</details>
+
+<details>
+<summary><strong>Error handling</strong></summary>
+
+- Any misconfiguration (duplicate exits, invalid chars, broken walls, unreachable areas)  
+  → exits cleanly with `Error\n` followed by an explicit descriptive message.  
+
+</details>
+
+<details>
+<summary><strong>Bonus extensions</strong></summary>
+
+- **Sprite animation**, **HUD-based move counter**, and **enemy patrols** build on top of the mandatory rules,  
+  keeping validation intact and consistent.  
+
+</details>
+
 
 ## Custom Tester
 <p align="center">
@@ -79,7 +133,8 @@ src/          - Mandatory gameplay: static sprites, HUD-free movement, and core 
 srcb/         - Bonus gameplay: animated sprites, mining cycles, HUD overlay, and enemy collisions.
 assets/       - Tiles, player sprites, mining sequences, and curated maps (valid + invalid suites).
 docs/         - Subject PDF and capture assets (WEBM sources + README GIFs).
-mlx/ & libft/ - Vendor libraries the Makefile builds automatically when missing.
+mlx/          - MiniLibx Library already compiled to ease use
+libft/        - Custom 42 Library with helper functions (printf, gnl, libft/ft_*)
 ```
 
 > Tip: `rg --files srcb/game` is a quick way to trace each bonus-specific helper from animation to input handling.
@@ -171,8 +226,3 @@ make fclean     # removes binaries, objects, and the libft clone
 - Console logs show per-case verdicts and aggregate tallies, making it obvious where to focus next.
 - Valgrind trace dumps appear only when something goes wrong, keeping successful runs concise.
 - During manual sessions, the on-screen move counter mirrors the terminal `printf` output so navigation errors are easy to trace.
-
-## Related Projects
-- [`libft`](libft/) - Supplied with the repository; provides string utilities, linked lists, formatted output, and `get_next_line` used across the codebase.
-- Future MiniLibX work (Fdf, Cub3D, so_long variants) can reuse this repository's animation pipeline, map validation helpers, and Makefile testing harness as a starting point.
-
