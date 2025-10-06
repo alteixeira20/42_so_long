@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/GDB-800000?style=for-the-badge&logo=gnu&logoColor=white" alt="GDB badge">
 </p>
 <h1 align="center">so_long</h1>
-<p align="center">MiniLibX-powered 2D exploration gane with animated sprite work, full map validation, with a built-in Tester.</p>
+<p align="center">MiniLibX-powered 2D exploration game with animated sprite work, full map validation, with a built-in Tester.</p>
 <p align="center">
   <img src="docs/images/running_game.gif" alt="Gameplay showcase" width="85%">
 </p>
